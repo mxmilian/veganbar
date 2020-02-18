@@ -1,0 +1,22 @@
+{
+  "name": "veganbar",
+  "version": "1.0.0",
+  "description": "veganbar project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mxmilian/veganbar.git"
+  },
+  "author": "Maksymilian Kierski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mxmilian/veganbar/issues"
+  },
+  "homepage": "https://github.com/mxmilian/veganbar#readme",
+  "devDependencies": {
+    "webpack": "^4.41.6"
+  }
+}
