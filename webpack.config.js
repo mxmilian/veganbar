@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     //The main app file
-    entry: './src/js/index.js',
+    entry: ['./src/js/index.js'],
     //Where bundle
     output: {
         //Target path
@@ -21,5 +21,20 @@ module.exports = {
             filename: 'index.html',
             template: "./src/index.html"
         })
-    ]
+    ],
+    //setup a babel
+    module: {
+        rules: [
+            {
+                //searching all files that end with.js
+                test: /\.js$/,
+                //excluding a searching with node_modules folder
+                exclude: /node_modules/,
+                //if test is passed then apply the babel-loader loader
+                use: {
+                    loader: "babel-loader",
+                }
+            }
+        ]
+    }
 };
