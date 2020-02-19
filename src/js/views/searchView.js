@@ -10,6 +10,7 @@ export const clearInput = () => {
 
 export const clearResults = () => {
     elements.searchResList.innerHTML = '';
+    elements.searchResPages.innerHTML = '';
 };
 /*
 //    0    1     2    3     4
@@ -39,6 +40,17 @@ const limitRecipeTitle = (title, limit = 17) => {
     return title;
 };
 
+// type: 'prev' or 'next'
+const createButon = (page, type) =>
+    `
+    <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page -1 : page +1}>
+        <span>Page ${type === 'prev' ? page -1 : page +1}</span>
+        <svg class="search__icon">
+            <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
+        </svg>
+    </button>
+    `;
+
 const renderRecipe = recipe => {
     const element =
         `
@@ -57,10 +69,37 @@ const renderRecipe = recipe => {
     elements.searchResList.insertAdjacentHTML('beforeend', element);
 };
 
-export const gotRecipes = recipes => {
+const renderButtons = (page, numOfRes, resPerPage) => {
+    //45 / 10 4.5 but we need 5 pages
+    const pages = Math.ceil(numOfRes / resPerPage);
+    let button;
+    if (page === 1) {
+        // Button to go next page
+        button = createButon(page, 'next');
+    } else if (page < pages) {
+        // Both buttons
+        button = `   
+            ${createButon(page, 'next')}
+            ${createButon(page, 'prev')}
+                `;
+    } else if (page === pages) {
+        // Button to go prev page
+        button = createButon(page, 'prev');
+    }
+    elements.searchResPages.insertAdjacentHTML("afterbegin", button);
+};
+
+export const gotRecipes = (recipes, page = 1, resPerPage = 8) => {
     //This is the same like
     // recipes.forEach(recipe => {
     //     renderRecipe(recipe)
     // });
-    recipes.forEach(renderRecipe);
+    //recipes.forEach(renderRecipe);
+    //  implementing pagination render result current page
+    const start = (page - 1) * resPerPage;
+    const end = page * resPerPage;
+    recipes.slice(start, end).forEach(renderRecipe);
+
+    // render pagination
+    renderButtons(page, recipes.length, resPerPage);
 };
