@@ -13,7 +13,8 @@ module.exports = {
     },
     //Webpack dev server configuration
     devServer: {
-      contentBase: './dist'
+        contentBase: './dist',
+        port: 9927,
     },
     plugins: [
         //This plugin attach dev html to dist
