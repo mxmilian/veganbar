@@ -27,13 +27,18 @@ const handleSearch = async () => {
         searchView.clearResults();
         loading(elements.searchResList);
 
-        // 4. Searching for recipes and return a promise
-        await state.search.getResults();
+        try {
+            // 4. Searching for recipes and return a promise
+            await state.search.getResults();
 
-        // 5. Render results on UI
-        removeLoading();
-        searchView.gotRecipes(state.search.result);
-        console.log(state);
+            // 5. Render results on UI
+            removeLoading();
+            searchView.gotRecipes(state.search.result);
+            console.log(state);
+        } catch (e) {
+            console.log(e);
+            alert('Something went wrong!');
+        }
     }
     console.log(state);
 };
@@ -53,10 +58,38 @@ elements.searchResPages.addEventListener('click', e => {
    }
 });
 
-//One recipe controller
+//Recipe controller
 const handleRecipe = async () => {
-    const recipe = new Recipe(47745);
-    await recipe.calcTime();
+    //Get id from url
+    const id = window.location.hash.replace('#', '');
+    if(id) {
+        //Prepare UI for changes
+
+        //Create new recipe object
+        state.recipe = new Recipe(id);
+        try {
+            //Get recipe data
+            await state.recipe.getRecipe();
+            console.log(state.recipe.ingredients);
+
+            //Calculate all things
+            state.recipe.calcTime();
+            console.log(state.recipe.time);
+
+            //Render recipe
+            console.log(state.recipe);
+        } catch (e) {
+            console.log(e);
+            alert('Something gone wrong!');
+        }
+    }
+
 };
 
-handleRecipe();
+/*
+window.addEventListener('hashchange', handleRecipe);
+window.addEventListener('load', handleRecipe);
+*/
+
+//hashchange reacts when the hash in url is changing, load react when the site is reloading
+['hashchange', 'load'].forEach(event => window.addEventListener(event, handleRecipe));
