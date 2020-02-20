@@ -1,4 +1,5 @@
 import Search from "./models/Search";
+import Recipe from "./models/Recipe";
 import * as searchView from './views/searchView';
 import {elements, loading, removeLoading} from "./views/base";
 
@@ -51,3 +52,11 @@ elements.searchResPages.addEventListener('click', e => {
        searchView.gotRecipes(state.search.result, goToPage);
    }
 });
+
+//One recipe controller
+const handleRecipe = async () => {
+    const recipe = new Recipe(47745);
+    await recipe.calcTime();
+};
+
+handleRecipe();
