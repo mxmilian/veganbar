@@ -1,6 +1,7 @@
 import Search from "./models/Search";
 import Recipe from "./models/Recipe";
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import {elements, loading, removeLoading} from "./views/base";
 
 /* Global state of the app
@@ -75,7 +76,8 @@ const handleRecipe = async () => {
     if(id) {
 
         //Prepare UI for changes
-
+        recipeView.clearRecipe();
+        loading(elements.recipePage);
         //Create new recipe object
         state.recipe = new Recipe(id);
         //Include state.recipe to window object to get access
@@ -90,7 +92,8 @@ const handleRecipe = async () => {
             state.recipe.calcTime();
 
             //Render recipe
-            console.log(state.recipe);
+            recipeView.renderRecipe(state.recipe);
+            removeLoading();
         } catch (e) {
             console.log(e);
             alert('Something gone wrong!');

@@ -39,6 +39,7 @@ class Recipe {
         const newIngredients = this.ingredients.map(ing => {
             const apiUnits = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
             const newUnits = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+            const units = [...newUnits, 'kg', 'g'];
 
             let newIng;
             // Standardize units
@@ -54,7 +55,7 @@ class Recipe {
             // Parse ingredients into count, unit and ingredient (separate counts, units, and ingredients)
             //If is here unit and what is its index
             const arrIngredient = newIng.split(' ');
-            const unitIndex = arrIngredient.findIndex(element => newUnits.includes(element));
+            const unitIndex = arrIngredient.findIndex(element => units.includes(element));
 
             let objectIngredient;
             if (unitIndex > -1) {
