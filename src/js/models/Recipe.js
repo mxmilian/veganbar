@@ -56,15 +56,41 @@ class Recipe {
             const arrIngredient = newIng.split(' ');
             const unitIndex = arrIngredient.findIndex(element => newUnits.includes(element));
 
+            let objectIngredient;
             if (unitIndex > -1) {
                 //There is a unit
-            } else if (parseInt(arrIngredient[0])) {
+                //arrCount Ex. 4 1/2 cups, arrCount is [4, 1/2]
+                //arrCount Ex. 4 cups, arrCount is [4]
+                const arrCount = arrIngredient.slice(0, unitIndex);
+                let count;
+                if(arrCount.length === 1) {
+                    count = eval(arrIngredient[0].replace('-', '+'));
+                } else {
+                    count = eval(arrIngredient.slice(0, unitIndex).join('+'));
+                }
+
+                objectIngredient = {
+                    count,
+                    unit: arrIngredient[unitIndex],
+                    ingredient: arrIngredient.slice(unitIndex + 1).join(' '),
+                }
+            } else if (parseInt(arrIngredient[0], 10)){
                 //There is no unit but 1st element is a number
+                objectIngredient = {
+                    count: parseInt(arrIngredient[0], 10),
+                    unit: '',
+                    ingredient: arrIngredient.slice(1).join(' '),
+                }
             } else if (unitIndex === -1) {
                 //There is no unit and 1sr element is no a number
+                objectIngredient = {
+                    count: 1,
+                    unit: '',
+                    ingredient: newIng,
+                }
             }
 
-            return newIng;
+            return objectIngredient;
         });
         console.log(newIngredients);
         this.ingredients = newIngredients;
