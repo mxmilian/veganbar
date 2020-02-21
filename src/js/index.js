@@ -11,9 +11,8 @@ import {elements, loading, removeLoading} from "./views/base";
 * */
 const state = {
 };
-console.log(state);
+
 const handleSearch = async () => {
-    console.log(`1: ${state}`);
 
     // 1. Get query from the view (user input)
     const query = searchView.searchInput();
@@ -34,13 +33,13 @@ const handleSearch = async () => {
             // 5. Render results on UI
             removeLoading();
             searchView.gotRecipes(state.search.result);
-            console.log(state);
+
         } catch (e) {
             console.log(e);
             alert('Something went wrong!');
+            removeLoading();
         }
     }
-    console.log(state);
 };
 
 elements.searchBtn.addEventListener('submit', e => {
@@ -63,18 +62,18 @@ const handleRecipe = async () => {
     //Get id from url
     const id = window.location.hash.replace('#', '');
     if(id) {
+
         //Prepare UI for changes
 
         //Create new recipe object
         state.recipe = new Recipe(id);
+
         try {
             //Get recipe data
             await state.recipe.getRecipe();
-            console.log(state.recipe.ingredients);
 
             //Calculate all things
             state.recipe.calcTime();
-            console.log(state.recipe.time);
 
             //Render recipe
             console.log(state.recipe);
@@ -83,7 +82,6 @@ const handleRecipe = async () => {
             alert('Something gone wrong!');
         }
     }
-
 };
 
 /*
