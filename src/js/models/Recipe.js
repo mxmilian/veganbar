@@ -28,6 +28,47 @@ class Recipe {
         const periods = Math.ceil(numIng / 3) ;
         this.time = periods * 15;
     }
+
+    calcServings() {
+        this.servings = 4;
+    }
+
+    //this function will transform the api data we will use
+    pareIngredients() {
+        //This is new array of api array elements
+        const newIngredients = this.ingredients.map(ing => {
+            const apiUnits = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
+            const newUnits = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
+
+            let newIng;
+            // Standardize units
+            newIng = ing.toLowerCase();
+            //If in newIng array is some unit from apiUnits then replace this to unit from outUnits on this same place for example ounces(2) -> oz(2)
+            apiUnits.forEach((unit, index)=>{
+                newIng = newIng.replace(unit, newUnits[index]);
+            });
+
+            // Remove text in parentheses and them
+            newIng = newIng.replace(/ *\([^)]*\) */g, '');
+
+            // Parse ingredients into count, unit and ingredient (separate counts, units, and ingredients)
+            //If is here unit and what is its index
+            const arrIngredient = newIng.split(' ');
+            const unitIndex = arrIngredient.findIndex(element => newUnits.includes(element));
+
+            if (unitIndex > -1) {
+                //There is a unit
+            } else if (parseInt(arrIngredient[0])) {
+                //There is no unit but 1st element is a number
+            } else if (unitIndex === -1) {
+                //There is no unit and 1sr element is no a number
+            }
+
+            return newIng;
+        });
+        console.log(newIngredients);
+        this.ingredients = newIngredients;
+    }
 }
 
 export default Recipe;

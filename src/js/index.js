@@ -15,7 +15,10 @@ const state = {
 const handleSearch = async () => {
 
     // 1. Get query from the view (user input)
-    const query = searchView.searchInput();
+
+    //TESTING
+    //const query = searchView.searchInput();
+    const query = 'pizza';
 
     if (query) {
         // 2. New search object and add to state
@@ -48,6 +51,14 @@ elements.searchBtn.addEventListener('submit', e => {
     handleSearch().catch(error => alert(error));
 });
 
+
+//For faster TESTING
+window.addEventListener('load', e => {
+    //to prevent refreshing page after clicked on button
+    e.preventDefault();
+    handleSearch().catch(error => alert(error));
+});
+
 elements.searchResPages.addEventListener('click', e => {
    const btn = e.target.closest('.btn-inline');
    if(btn) {
@@ -67,6 +78,8 @@ const handleRecipe = async () => {
 
         //Create new recipe object
         state.recipe = new Recipe(id);
+        //Include state.recipe to window object to get access
+        window.recipe = state.recipe;
 
         try {
             //Get recipe data
