@@ -34,7 +34,7 @@ class Recipe {
     }
 
     //this function will transform the api data we will use
-    pareIngredients() {
+    parseIngredients() {
         //This is new array of api array elements
         const newIngredients = this.ingredients.map(ing => {
             const apiUnits = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
@@ -64,7 +64,11 @@ class Recipe {
                 const arrCount = arrIngredient.slice(0, unitIndex);
                 let count;
                 if(arrCount.length === 1) {
-                    count = eval(arrIngredient[0].replace('-', '+'));
+                    if(arrCount[0] !== '') {
+                        count = eval(arrIngredient[0].replace('-', '+'));
+                    } else {
+                        count = 1;
+                    }
                 } else {
                     count = eval(arrIngredient.slice(0, unitIndex).join('+'));
                 }
@@ -92,7 +96,6 @@ class Recipe {
 
             return objectIngredient;
         });
-        console.log(newIngredients);
         this.ingredients = newIngredients;
     }
 }
