@@ -117,8 +117,10 @@ window.addEventListener('load', handleRecipe);
 //update servings handle
 elements.recipePage.addEventListener('click', e => {
     if (e.target.matches('.btn-increase, .btn-increase *')) {
-        state.recipe.updateServings('inc');
-        recipeView.updateServingsIngredients(state.recipe);
+        if(state.recipe.servings > 0) {
+            state.recipe.updateServings('inc');
+            recipeView.updateServingsIngredients(state.recipe);
+        }
     } else if (e.target.matches('.btn-decrease, .btn-decrease *')) {
         state.recipe.updateServings('dec');
         recipeView.updateServingsIngredients(state.recipe);
