@@ -18,8 +18,7 @@ const handleSearch = async () => {
     // 1. Get query from the view (user input)
 
     //TESTING
-    //const query = searchView.searchInput();
-    const query = 'pizza';
+    const query = searchView.searchInput();
 
     if (query) {
         // 2. New search object and add to state
@@ -47,14 +46,6 @@ const handleSearch = async () => {
 };
 
 elements.searchBtn.addEventListener('submit', e => {
-    //to prevent refreshing page after clicked on button
-    e.preventDefault();
-    handleSearch().catch(error => alert(error));
-});
-
-
-//For faster TESTING
-window.addEventListener('load', e => {
     //to prevent refreshing page after clicked on button
     e.preventDefault();
     handleSearch().catch(error => alert(error));
