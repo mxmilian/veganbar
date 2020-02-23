@@ -94,6 +94,7 @@ const handleRecipe = async () => {
 
             //Calculate all things
             state.recipe.calcTime();
+            state.recipe.calcServings();
 
             //Render recipe
             recipeView.renderRecipe(state.recipe);
@@ -112,3 +113,15 @@ window.addEventListener('load', handleRecipe);
 
 //hashchange reacts when the hash in url is changing, load react when the site is reloading
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, handleRecipe));
+
+//update servings handle
+elements.recipePage.addEventListener('click', e => {
+    if (e.target.matches('.btn-increase, .btn-increase *')) {
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    } else if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+        state.recipe.updateServings('dec');
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+    console.log(state.recipe)
+});
