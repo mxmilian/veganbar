@@ -1,6 +1,7 @@
 import Search from "./models/Search";
 import Recipe from "./models/Recipe";
 import List from "./models/List";
+import Likes from "./models/Likes";
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
@@ -116,6 +117,23 @@ const handleList = () => {
     });
 };
 
+
+const handleLikes = () => {
+  if (!state.likes) state.likes = new Likes();
+  const currentID = state.recipe.id;
+  if(!state.likes.isLiked(currentID)){
+      const newLike = state.likes.addLike(
+          currentID,
+          state.recipe.title,
+          state.recipe.publisher,
+          state.recipe.imageUrl)
+      ;
+  }else {
+      state.likes.deleteLike(currentID);
+  }
+    console.log(state.likes);
+};
+
 elements.shoppingList.addEventListener('click', e => {
     //Getting id from list
     const id = e.target.closest('.shopping__item').dataset.itemid;
@@ -142,7 +160,7 @@ elements.recipePage.addEventListener('click', e => {
         recipeView.updateServingsIngredients(state.recipe);
     } else if (e.target.matches('.recipe__btn-add, .recipe__btn-add *')) {
         handleList();
+    } else if (e.target.matches('.recipe__love, .recipe__love *')){
+        handleLikes();
     }
-    console.log(state.list);
 });
-
