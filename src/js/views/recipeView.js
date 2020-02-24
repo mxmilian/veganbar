@@ -16,13 +16,14 @@ export const clearRecipe = () => {
 
 const formatCount = count => {
     if (count) {
-        const [int, dec] = count.toString().split('.').map(el => parseInt(el, 10));
-        if (!dec) return count;
+        const newCout = Math.round(count * 1000) / 1000;
+        const [int, dec] = newCout.toString().split('.').map(el => parseInt(el, 10));
+        if (!dec) return newCout;
         if(int === 0) {
-            const fr = new Fraction(count);
+            const fr = new Fraction(newCout);
             return `${fr.numerator}/${fr.denominator}`;
         } else {
-            const fr = new Fraction(count - int);
+            const fr = new Fraction(newCout - int);
             return `${int} ${fr.numerator}/${fr.denominator}`;
         }
     }
