@@ -118,8 +118,7 @@ const handleList = () => {
     });
 };
 
-// Testing
-state.likes = new Likes();
+
 const handleLikes = () => {
   if (!state.likes) state.likes = new Likes();
   const currentID = state.recipe.id;
@@ -142,7 +141,7 @@ const handleLikes = () => {
   likesView.toggleLikeMenu(state.likes.getNumLikes());
 
 };
-likesView.toggleLikeMenu(state.likes.getNumLikes());
+
 
 elements.shoppingList.addEventListener('click', e => {
     //Getting id from list
@@ -173,4 +172,13 @@ elements.recipePage.addEventListener('click', e => {
     } else if (e.target.matches('.recipe__love, .recipe__love *')){
         handleLikes();
     }
+});
+
+//Restore like recipes on page load
+window.addEventListener('load', () => {
+    // Testing
+    state.likes = new Likes();
+    state.likes.readStorage();
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+    state.likes.likes.forEach(like => likesView.renderLike(like));
 });
